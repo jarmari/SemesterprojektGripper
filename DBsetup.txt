@@ -1,0 +1,21 @@
+CREATE SCHEMA letters;
+
+USE letters;
+
+CREATE TABLE letter(
+letter_id int not null,
+letter char not null,
+no_of_legos int not null,
+width int not null,
+PRIMARY KEY (letter_id)
+);
+
+CREATE TABLE coordinate(
+coordinate_id int not null AUTO_INCREMENT,
+letter_id int not null,
+rotation int not null,
+x int not null,
+y int not null,
+PRIMARY KEY (coordinate_id),
+FOREIGN KEY (letter_id) references letter(letter_id)
+);
