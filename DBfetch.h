@@ -7,32 +7,41 @@
 #include <QSqlDatabase>
 #include <string>
 #include <vector>
+#include <memory>
 
-void fetchCoordinates(QString letter, int offset){
+std::vector<std::vector<int>> wordVec;
+
+std::vector<int> fetchCoordinates(QString letter, int offset){
     QSqlQuery query;
 
     query.prepare("SELECT letter, x, y, rotation FROM letter INNER JOIN coordinate ON letter.letter_id=coordinate.letter_id WHERE letter.letter=? ORDER BY coordinate_id");
     query.addBindValue(letter);
     query.exec();
+    //letter
 
+    std::vector<int> coordinate;
+
+    int i = 0;
+    int j = 1;
     while (query.next()){
 
-        int yoffset = 0;
-        int x = query.value(1).toInt() + offset;
-        int y = query.value(2).toInt() + yoffset; //for at få den på midten af pladen
+        int x = query.value(1).toInt()+offset;
+        int y = query.value(2).toInt();
 
-        if(query.value(3) == 1){
+        if(query.value(3) ==1){
         //LAV EN TRANSFORMATION
         //LAV EN TRANSFORMATION
         }
-
-        std::vector<int> coordinate;
 
         coordinate.push_back(x);
         coordinate.push_back(y);
 
-        qDebug() << query.value(0).toString() << coordinate[0] << coordinate[1] << query.value(3).toInt();
-        }
+        qDebug() << query.value(0).toString() << coordinate[i] << coordinate[j] << query.value(3).toInt();
+        i+=2;
+        j+=2;
+    }
+
+    return coordinate;
 }
 
 int calculateOffset(QString letter){
@@ -49,110 +58,113 @@ int calculateOffset(QString letter){
     }
     return offset;
 }
+
 void coordinatesOfWord(int word_id_number){
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("localhost");
     db.setDatabaseName("letters");
-    db.setUserName("sarah");  // Change to username
-    db.setPassword("0111");  // Change to password
+    db.setUserName("lucas");    // Change to username
+    db.setPassword("password"); // Change to password
     db.open();
-
 
     if(word_id_number == 0){
         int offset = 0;
-        fetchCoordinates("O", 0);
+        wordVec.push_back(fetchCoordinates("O", 0));
         offset = calculateOffset("O");
-        fetchCoordinates("R", offset);
+        wordVec.push_back(fetchCoordinates("R", offset));
         offset += calculateOffset("R");
-        fetchCoordinates("A",offset);
+        wordVec.push_back(fetchCoordinates("A",offset));
         offset += calculateOffset("A");
-        fetchCoordinates("N", offset);
+        wordVec.push_back(fetchCoordinates("N", offset));
         offset += calculateOffset("N");
-        fetchCoordinates("G", offset);
+        wordVec.push_back(fetchCoordinates("G", offset));
         offset += calculateOffset("G");
-        fetchCoordinates("E", offset);
-
+        wordVec.push_back(fetchCoordinates("E", offset));
     }
     if(word_id_number == 1){
         int offset = 0;
-        fetchCoordinates("G", 0);
+        wordVec.push_back(fetchCoordinates("G", 0));
         offset += calculateOffset("G");
-        fetchCoordinates("R",offset);
+        wordVec.push_back(fetchCoordinates("R",offset));
         offset += calculateOffset("R");
-        fetchCoordinates("A",offset);
+        wordVec.push_back(fetchCoordinates("A",offset));
         offset += calculateOffset("A");
-        fetchCoordinates("P",offset);
+        wordVec.push_back(fetchCoordinates("P",offset));
         offset += calculateOffset("P");
-        fetchCoordinates("E",offset);
+        wordVec.push_back(fetchCoordinates("E",offset));
     }
     if(word_id_number == 2){
         int offset = 0;
-        fetchCoordinates("A", 0);
+        wordVec.push_back(fetchCoordinates("A", 0));
         offset += calculateOffset("A");
-        fetchCoordinates("P", offset);
+        wordVec.push_back(fetchCoordinates("P", offset));
         offset += calculateOffset("P");
-        fetchCoordinates("P", offset);
+        wordVec.push_back(fetchCoordinates("P", offset));
         offset += calculateOffset("P");
-        fetchCoordinates("L", offset);
+        wordVec.push_back(fetchCoordinates("L", offset));
         offset += calculateOffset("L");
-        fetchCoordinates("E", offset);
+        wordVec.push_back(fetchCoordinates("E", offset));
     }
     if(word_id_number == 3){
         int offset = 0;
-        fetchCoordinates("H", 0);
+        wordVec.push_back(fetchCoordinates("H", 0));
         offset += calculateOffset("H");
-        fetchCoordinates("A", offset);
+        wordVec.push_back(fetchCoordinates("A", offset));
         offset += calculateOffset("A");
-        fetchCoordinates("T", offset);
+        wordVec.push_back(fetchCoordinates("T", offset));
     }
     if(word_id_number == 4){
         int offset = 0;
-        fetchCoordinates("S", 0);
+        wordVec.push_back(fetchCoordinates("S", 0));
         offset += calculateOffset("S");
-        fetchCoordinates("H", offset);
+        wordVec.push_back(fetchCoordinates("H", offset));
         offset += calculateOffset("H");
-        fetchCoordinates("I", offset);
+        wordVec.push_back(fetchCoordinates("I", offset));
         offset += calculateOffset("I");
-        fetchCoordinates("R", offset);
+        wordVec.push_back(fetchCoordinates("R", offset));
         offset += calculateOffset("R");
-        fetchCoordinates("T", offset);
+        wordVec.push_back(fetchCoordinates("T", offset));
     }
     if(word_id_number == 5){
         int offset = 0;
-        fetchCoordinates("P", 0);
+        wordVec.push_back(fetchCoordinates("P", 0));
         offset += calculateOffset("P");
-        fetchCoordinates("A", offset);
+        wordVec.push_back(fetchCoordinates("A", offset));
         offset += calculateOffset("A");
-        fetchCoordinates("N", offset);
+        wordVec.push_back(fetchCoordinates("N", offset));
         offset += calculateOffset("N");
-        fetchCoordinates("T", offset);
+        wordVec.push_back(fetchCoordinates("T", offset));
         offset += calculateOffset("T");
-        fetchCoordinates("S", offset);
+        wordVec.push_back(fetchCoordinates("S", offset));
     }
     if(word_id_number == 6){
         int offset = 0;
-        fetchCoordinates("D", 0);
+        wordVec.push_back(fetchCoordinates("D", 0));
         offset += calculateOffset("D");
-        fetchCoordinates("O", offset);
+        wordVec.push_back(fetchCoordinates("O", offset));
         offset += calculateOffset("O");
-        fetchCoordinates("G", offset);
+        wordVec.push_back(fetchCoordinates("G", offset));
     }
     if(word_id_number == 7){
         int offset = 0;
-        fetchCoordinates("C", 0);
+        wordVec.push_back(fetchCoordinates("C", 0));
         offset += calculateOffset("C");
-        fetchCoordinates("O", offset);
+        wordVec.push_back(fetchCoordinates("O", offset));
         offset += calculateOffset("O");
-        fetchCoordinates("W", offset);
+        wordVec.push_back(fetchCoordinates("W", offset));
     }
     if(word_id_number == 8){
         int offset = 0;
-        fetchCoordinates("B", 0);
+        wordVec.push_back(fetchCoordinates("B", 0));
         offset += calculateOffset("B");
-        fetchCoordinates("E", offset);
+        wordVec.push_back(fetchCoordinates("E", offset));
         offset += calculateOffset("E");
-        fetchCoordinates("E", offset);
+        wordVec.push_back(fetchCoordinates("E", offset));
     }
+}
+
+std::vector<std::vector<int>> returnWordVec() {
+    return wordVec;
 }
 
 #endif // DBFETCH_H
