@@ -19,8 +19,8 @@ uint8_t rot;
 uint8_t open; 
 
 //Duty
-uint16_t servo_rot[4] = {1000, 1000, 1000, 1000};
-uint16_t servo_open[4] = {1000, 1000, 1000, 1000};
+uint16_t gripper_rot[4] = {1000, 1000, 1000, 1000};
+uint16_t gripper_open[4] = {1000, 1000, 1000, 1000};
 uint8_t servo_rot_pin [4] = {PIND3, PIND4, PIND5, PIND7};
 uint8_t servo_open_pin [4] = {PINA1,PINA3 ,PINA5, PINA7};
 
@@ -53,6 +53,7 @@ void uart_transmit_16(uint16_t data) {
 		UDR = data2[i];
 		}
 }
+
 //Timer interrupt for PWN 
 ISR(TIMER1_COMPA_vect){
 	PORTD = 0xFF;
@@ -65,7 +66,7 @@ void set_timer_pwm(){
 	DDRA = 0xFF; 
 	
 	TCCR1A |= 1<<WGM11;   // | 1<<COM1A1 | 1<<COM1A0 | 1<<COM1B1 | 1<<COM1B0 | 1<<FOC1A | 1<<FOC1B; //configuration af TC1 "Fast PWM mode, non-inverted output on OC1A.
-	TCCR1B |= 1<<WGM12 | 1<<WGM13  | 1<<CS11; //Sets TC1 for a prescaler of 1 (no prescaling) and Fast PWM mode.
+	TCCR1B |= 1<<WGM12 | 1<<WGM13  | 1<<CS11; //Sets TC1 for a prescaler of 8 (no prescaling) and Fast PWM mode.
 	TIMSK  |= 1<<OCIE1A; //Enables the output compare interrupt for OC1A.
 	
 	ICR1 = 19999; // maksimale værdi for counter fra databladet beregnes duty cycle.
@@ -80,32 +81,31 @@ void set_timer_pwm(){
 void rot_servo(uint8_t gripper_number, uint8_t rot){
 	uint16_t angle;
 	if (rot == 1){
-		angle = 1500;
+		angle = 2300;
 	}
 	else {
 		angle = 1000;
 	}
 	
-	servo_rot[gripper_number] = angle;
-	uart_transmit_16(servo_rot[gripper_number]);
-
-
+	gripper_rot[gripper_number] = angle;
+	
+	
 }
 
 void open_serv(uint8_t gripper_number, uint8_t open){
 	uint16_t angle;
 	if (open == 1){
-		angle = 2150;
+		angle = 2000;		//2650 var en stabil 
 	}
 	else {
-		angle = 850;
+		angle = 600;
 	}
 
-servo_open[gripper_number] = angle;
-uart_transmit_16(servo_open[gripper_number]); 
+gripper_open[gripper_number] = angle;
+//uart_transmit_16(servo_open[gripper_number]); 
 }
 
-ISR(USART_RXC_vect){			//UART Recieve interrrupt
+ISR(USART_RXC_vect){			//UART Receive interrupt
 	m = UDR;
 	if ((m & CHECK_BIT)==CHECK_BIT){
 		rot = (m & ROT_BIT) >> 4;
@@ -128,12 +128,12 @@ int main(void) {
 
 
 	while(1){
-	
-		for (int i=0; i < 5; i++) {
-			if (TCNT1 >= servo_rot[i] && bit_is_set(PORTD , servo_rot_pin[i])) PORTD &= ~(1 << servo_rot_pin[i]);
-			//else PORTD &= ~(1 << servo_rot_pin[i]);
-			if (TCNT1 > servo_open[i]&& bit_is_set(PORTA , servo_open_pin[i])) PORTA &= ~(1 << servo_open_pin[i]);
-			//else PORTD &= ~(1 << servo_open_pin[i]);
+		for (int i=0; i < 4; i++) {
+			if (TCNT1 >= 500 && TCNT1 <= 2500){
+				if (TCNT1 >= gripper_rot[i] && bit_is_set(PORTD , servo_rot_pin[i])) PORTD &= ~(1 << servo_rot_pin[i]);
+				
+				if (TCNT1 > gripper_open[i]&& bit_is_set(PORTA , servo_open_pin[i])) PORTA &= ~(1 << servo_open_pin[i]);
+				}
 		}
 		
 	}
