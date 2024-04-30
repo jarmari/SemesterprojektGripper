@@ -10,7 +10,7 @@ find_package(Qt5 REQUIRED COMPONENTS Multimedia)
 find_package(Qt5 REQUIRED COMPONENTS Core Quick Sql)
 
 add_executable(src main.cpp)
-target_sources(src PRIVATE DBfetch.h gui.h PicknPlace.h)
+target_sources(src PRIVATE DBfetch.h gui.h PicknPlace.h transformations.h)
 
 target_link_libraries(src ${OpenCV_LIBS})
 target_link_libraries(src ${img})

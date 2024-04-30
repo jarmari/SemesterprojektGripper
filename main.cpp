@@ -6,6 +6,7 @@
 #include <chrono>
 #include <thread>
 #include "PicknPlace.h"
+#include "transformations.h"
 
 int main(int argc, char** argv){
 
@@ -73,7 +74,6 @@ int main(int argc, char** argv){
             i_pick++;
 
             // PICK - Above LEGO piece WO. LEGO piece
-            run = true;     // Resets "run" bool
             while(run) {    // While-loop runs until robot has finished current task
 
                 /* Writing positions to robot registers */

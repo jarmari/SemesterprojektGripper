@@ -9,7 +9,7 @@ std::vector<std::vector<int>> legoPosFunc() {
 
     for(int i=0; i<7; i++) {
         for(int j=0; j<17; j++) {
-            legoPos.push_back(std::vector<int> {i+1,j+1});
+            legoPos.push_back(std::vector<int> {j,i});
         }
     }
     return legoPos;
