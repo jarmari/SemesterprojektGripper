@@ -245,55 +245,57 @@ void newWindow(cv::String text, cv::String destroy, cv::Mat img){
 
 void loadSounds(){
 
-    category.setSource(QUrl::fromLocalFile("/home/sarah/Desktop/C++/GUI/sounds/category.wav"));
+    char filepathAppendix[] = "/home/sarah/Desktop/semester_projekt/GUI/sounds/";
+
+    category.setSource(QUrl::fromLocalFile(std::strcat(filepathAppendix,"category.wav")));
     category.setLoopCount(1);
     category.setVolume(100);
 
-    fruits.setSource(QUrl::fromLocalFile("/home/sarah/Desktop/C++/GUI/sounds/fruits.wav"));
+    fruits.setSource(QUrl::fromLocalFile(std::strcat(filepathAppendix,"fruits.wav")));
     fruits.setLoopCount(1);
     fruits.setVolume(100);
 
-    clothing.setSource(QUrl::fromLocalFile("/home/sarah/Desktop/C++/GUI/sounds/clothing.wav"));
+    clothing.setSource(QUrl::fromLocalFile(std::strcat(filepathAppendix,"clothing.wav")));
     clothing.setLoopCount(1);
     clothing.setVolume(100);
 
-    animals.setSource(QUrl::fromLocalFile("/home/sarah/Desktop/C++/GUI/sounds/animals.wav"));
+    animals.setSource(QUrl::fromLocalFile(std::strcat(filepathAppendix,"animals.wav")));
     animals.setLoopCount(1);
     animals.setVolume(100);
 
-    sorange.setSource(QUrl::fromLocalFile("/home/sarah/Desktop/C++/GUI/sounds/orange.wav"));
+    sorange.setSource(QUrl::fromLocalFile(std::strcat(filepathAppendix,"orange.wav")));
     sorange.setLoopCount(1);
     sorange.setVolume(100);
 
-    sgrapes.setSource(QUrl::fromLocalFile("/home/sarah/Desktop/C++/GUI/sounds/grape.wav"));
+    sgrapes.setSource(QUrl::fromLocalFile(std::strcat(filepathAppendix,"grape.wav")));
     sgrapes.setLoopCount(1);
     sgrapes.setVolume(100);
 
-    sapple.setSource(QUrl::fromLocalFile("/home/sarah/Desktop/C++/GUI/sounds/apple.wav"));
+    sapple.setSource(QUrl::fromLocalFile(std::strcat(filepathAppendix,"apple.wav")));
     sapple.setLoopCount(1);
     sapple.setVolume(100);
 
-    shat.setSource(QUrl::fromLocalFile("/home/sarah/Desktop/C++/GUI/sounds/hat.wav"));
+    shat.setSource(QUrl::fromLocalFile(std::strcat(filepathAppendix,"hat.wav")));
     shat.setLoopCount(1);
     shat.setVolume(100);
 
-    sshirt.setSource(QUrl::fromLocalFile("/home/sarah/Desktop/C++/GUI/sounds/shirt.wav"));
+    sshirt.setSource(QUrl::fromLocalFile(std::strcat(filepathAppendix,"shirt.wav")));
     sshirt.setLoopCount(1);
     sshirt.setVolume(100);
 
-    spants.setSource(QUrl::fromLocalFile("/home/sarah/Desktop/C++/GUI/sounds/pants.wav"));
+    spants.setSource(QUrl::fromLocalFile(std::strcat(filepathAppendix,"pants.wav")));
     spants.setLoopCount(1);
     spants.setVolume(100);
 
-    sdog.setSource(QUrl::fromLocalFile("/home/sarah/Desktop/C++/GUI/sounds/dog.wav"));
+    sdog.setSource(QUrl::fromLocalFile(std::strcat(filepathAppendix,"dog.wav")));
     sdog.setLoopCount(1);
     sdog.setVolume(100);
 
-    scow.setSource(QUrl::fromLocalFile("/home/sarah/Desktop/C++/GUI/sounds/cow.wav"));
+    scow.setSource(QUrl::fromLocalFile(std::strcat(filepathAppendix,"cow.wav")));
     scow.setLoopCount(1);
     scow.setVolume(100);
 
-    sbee.setSource(QUrl::fromLocalFile("/home/sarah/Desktop/C++/GUI/sounds/bee.wav"));
+    sbee.setSource(QUrl::fromLocalFile(std::strcat(filepathAppendix,"bee.wav")));
     sbee.setLoopCount(1);
     sbee.setVolume(100);
 }
