@@ -54,11 +54,13 @@ void uart_transmit_16(uint16_t data) {
 		}
 }
 
-//Timer interrupt for PWN 
+//Timer interrupt for PWN
 ISR(TIMER1_COMPA_vect){
 	PORTD = 0xFF;
 	PORTA = 0xFF;
 }
+
+
 
 //SETUP PWM 
 void set_timer_pwm(){
@@ -81,10 +83,18 @@ void set_timer_pwm(){
 void rot_servo(uint8_t gripper_number, uint8_t rot){
 	uint16_t angle;
 	if (rot == 1){
-		angle = 2300;
+		angle = 1450;
+		
+		if(gripper_number==2){
+			angle = 1500;
+		}
+		if (gripper_number==3){
+			angle = 1515;
+		}
 	}
+	
 	else {
-		angle = 1000;
+		angle = 580;
 	}
 	
 	gripper_rot[gripper_number] = angle;
@@ -92,13 +102,14 @@ void rot_servo(uint8_t gripper_number, uint8_t rot){
 	
 }
 
+
 void open_serv(uint8_t gripper_number, uint8_t open){
 	uint16_t angle;
 	if (open == 1){
-		angle = 2000;		//2650 var en stabil 
+		angle = 2200;		//2650 var en stabil 
 	}
 	else {
-		angle = 600;
+		angle = 550;
 	}
 
 gripper_open[gripper_number] = angle;

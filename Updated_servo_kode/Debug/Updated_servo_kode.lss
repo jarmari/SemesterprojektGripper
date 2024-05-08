@@ -3,31 +3,31 @@ Updated_servo_kode.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000002c0  00000000  00000000  00000094  2**1
+  0 .text         000002d4  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000018  00800060  000002c0  00000354  2**0
+  1 .data         00000018  00800060  000002d4  00000368  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000005  00800078  00800078  0000036c  2**0
+  2 .bss          00000005  00800078  00800078  00000380  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  0000036c  2**0
+  3 .comment      00000030  00000000  00000000  00000380  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000039c  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000003b0  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000060  00000000  00000000  000003d8  2**0
+  5 .debug_aranges 00000060  00000000  00000000  000003ec  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000081f  00000000  00000000  00000438  2**0
+  6 .debug_info   0000081c  00000000  00000000  0000044c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000621  00000000  00000000  00000c57  2**0
+  7 .debug_abbrev 00000630  00000000  00000000  00000c68  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000003be  00000000  00000000  00001278  2**0
+  8 .debug_line   000003d7  00000000  00000000  00001298  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  0000010c  00000000  00000000  00001638  2**2
+  9 .debug_frame  0000010c  00000000  00000000  00001670  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000003e1  00000000  00000000  00001744  2**0
+ 10 .debug_str    000003e1  00000000  00000000  0000177c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000001dc  00000000  00000000  00001b25  2**0
+ 11 .debug_loc    00000212  00000000  00000000  00001b5d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000050  00000000  00000000  00001d01  2**0
+ 12 .debug_ranges 00000050  00000000  00000000  00001d6f  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -46,7 +46,7 @@ Disassembly of section .text:
   28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
-  34:	0c 94 9e 00 	jmp	0x13c	; 0x13c <__vector_13>
+  34:	0c 94 a8 00 	jmp	0x150	; 0x150 <__vector_13>
   38:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   40:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
@@ -67,7 +67,7 @@ Disassembly of section .text:
   60:	10 e0       	ldi	r17, 0x00	; 0
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	e0 ec       	ldi	r30, 0xC0	; 192
+  66:	e4 ed       	ldi	r30, 0xD4	; 212
   68:	f2 e0       	ldi	r31, 0x02	; 2
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
@@ -89,8 +89,8 @@ Disassembly of section .text:
   80:	ad 37       	cpi	r26, 0x7D	; 125
   82:	b2 07       	cpc	r27, r18
   84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
-  86:	0e 94 fb 00 	call	0x1f6	; 0x1f6 <main>
-  8a:	0c 94 5e 01 	jmp	0x2bc	; 0x2bc <_exit>
+  86:	0e 94 05 01 	call	0x20a	; 0x20a <main>
+  8a:	0c 94 68 01 	jmp	0x2d0	; 0x2d0 <_exit>
 
 0000008e <__bad_interrupt>:
   8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -121,7 +121,7 @@ Disassembly of section .text:
 
 000000ae <__vector_7>:
 
-//Timer interrupt for PWN 
+//Timer interrupt for PWN
 ISR(TIMER1_COMPA_vect){
   ae:	1f 92       	push	r1
   b0:	0f 92       	push	r0
@@ -143,6 +143,8 @@ ISR(TIMER1_COMPA_vect){
   ca:	18 95       	reti
 
 000000cc <set_timer_pwm>:
+	//}
+//}
 
 //SETUP PWM 
 void set_timer_pwm(){
@@ -192,283 +194,318 @@ void rot_servo(uint8_t gripper_number, uint8_t rot){
 	uint16_t angle;
 	if (rot == 1){
   fc:	61 30       	cpi	r22, 0x01	; 1
-  fe:	19 f4       	brne	.+6      	; 0x106 <rot_servo+0xa>
-		angle = 2300;
- 100:	2c ef       	ldi	r18, 0xFC	; 252
- 102:	38 e0       	ldi	r19, 0x08	; 8
- 104:	02 c0       	rjmp	.+4      	; 0x10a <rot_servo+0xe>
+  fe:	51 f4       	brne	.+20     	; 0x114 <rot_servo+0x18>
+		angle = 1450;
+		
+		if(gripper_number==2){
+ 100:	82 30       	cpi	r24, 0x02	; 2
+ 102:	19 f0       	breq	.+6      	; 0x10a <rot_servo+0xe>
+}
+
+void rot_servo(uint8_t gripper_number, uint8_t rot){
+	uint16_t angle;
+	if (rot == 1){
+		angle = 1450;
+ 104:	2a ea       	ldi	r18, 0xAA	; 170
+ 106:	35 e0       	ldi	r19, 0x05	; 5
+ 108:	02 c0       	rjmp	.+4      	; 0x10e <rot_servo+0x12>
+		
+		if(gripper_number==2){
+			angle = 1500;
+ 10a:	2c ed       	ldi	r18, 0xDC	; 220
+ 10c:	35 e0       	ldi	r19, 0x05	; 5
+		}
+		if (gripper_number==3){
+ 10e:	83 30       	cpi	r24, 0x03	; 3
+ 110:	31 f4       	brne	.+12     	; 0x11e <rot_servo+0x22>
+ 112:	03 c0       	rjmp	.+6      	; 0x11a <rot_servo+0x1e>
+			angle = 1515;
+		}
 	}
+	
 	else {
-		angle = 1000;
- 106:	28 ee       	ldi	r18, 0xE8	; 232
- 108:	33 e0       	ldi	r19, 0x03	; 3
+		angle = 580;
+ 114:	24 e4       	ldi	r18, 0x44	; 68
+ 116:	32 e0       	ldi	r19, 0x02	; 2
+ 118:	02 c0       	rjmp	.+4      	; 0x11e <rot_servo+0x22>
+		
+		if(gripper_number==2){
+			angle = 1500;
+		}
+		if (gripper_number==3){
+			angle = 1515;
+ 11a:	2b ee       	ldi	r18, 0xEB	; 235
+ 11c:	35 e0       	ldi	r19, 0x05	; 5
+	
+	else {
+		angle = 580;
 	}
 	
 	gripper_rot[gripper_number] = angle;
- 10a:	e8 2f       	mov	r30, r24
- 10c:	f0 e0       	ldi	r31, 0x00	; 0
- 10e:	ee 0f       	add	r30, r30
- 110:	ff 1f       	adc	r31, r31
- 112:	e0 59       	subi	r30, 0x90	; 144
- 114:	ff 4f       	sbci	r31, 0xFF	; 255
- 116:	31 83       	std	Z+1, r19	; 0x01
- 118:	20 83       	st	Z, r18
- 11a:	08 95       	ret
+ 11e:	e8 2f       	mov	r30, r24
+ 120:	f0 e0       	ldi	r31, 0x00	; 0
+ 122:	ee 0f       	add	r30, r30
+ 124:	ff 1f       	adc	r31, r31
+ 126:	e0 59       	subi	r30, 0x90	; 144
+ 128:	ff 4f       	sbci	r31, 0xFF	; 255
+ 12a:	31 83       	std	Z+1, r19	; 0x01
+ 12c:	20 83       	st	Z, r18
+ 12e:	08 95       	ret
 
-0000011c <open_serv>:
-	
+00000130 <open_serv>:
 }
+
 
 void open_serv(uint8_t gripper_number, uint8_t open){
 	uint16_t angle;
 	if (open == 1){
- 11c:	61 30       	cpi	r22, 0x01	; 1
- 11e:	19 f4       	brne	.+6      	; 0x126 <open_serv+0xa>
-		angle = 2000;		//2650 var en stabil 
- 120:	20 ed       	ldi	r18, 0xD0	; 208
- 122:	37 e0       	ldi	r19, 0x07	; 7
- 124:	02 c0       	rjmp	.+4      	; 0x12a <open_serv+0xe>
+ 130:	61 30       	cpi	r22, 0x01	; 1
+ 132:	19 f4       	brne	.+6      	; 0x13a <open_serv+0xa>
+		angle = 2200;		//2650 var en stabil 
+ 134:	28 e9       	ldi	r18, 0x98	; 152
+ 136:	38 e0       	ldi	r19, 0x08	; 8
+ 138:	02 c0       	rjmp	.+4      	; 0x13e <open_serv+0xe>
 	}
 	else {
-		angle = 600;
- 126:	28 e5       	ldi	r18, 0x58	; 88
- 128:	32 e0       	ldi	r19, 0x02	; 2
+		angle = 550;
+ 13a:	26 e2       	ldi	r18, 0x26	; 38
+ 13c:	32 e0       	ldi	r19, 0x02	; 2
 	}
 
 gripper_open[gripper_number] = angle;
- 12a:	e8 2f       	mov	r30, r24
- 12c:	f0 e0       	ldi	r31, 0x00	; 0
- 12e:	ee 0f       	add	r30, r30
- 130:	ff 1f       	adc	r31, r31
- 132:	e8 59       	subi	r30, 0x98	; 152
- 134:	ff 4f       	sbci	r31, 0xFF	; 255
- 136:	31 83       	std	Z+1, r19	; 0x01
- 138:	20 83       	st	Z, r18
- 13a:	08 95       	ret
+ 13e:	e8 2f       	mov	r30, r24
+ 140:	f0 e0       	ldi	r31, 0x00	; 0
+ 142:	ee 0f       	add	r30, r30
+ 144:	ff 1f       	adc	r31, r31
+ 146:	e8 59       	subi	r30, 0x98	; 152
+ 148:	ff 4f       	sbci	r31, 0xFF	; 255
+ 14a:	31 83       	std	Z+1, r19	; 0x01
+ 14c:	20 83       	st	Z, r18
+ 14e:	08 95       	ret
 
-0000013c <__vector_13>:
+00000150 <__vector_13>:
 //uart_transmit_16(servo_open[gripper_number]); 
 }
 
 ISR(USART_RXC_vect){			//UART Receive interrupt
- 13c:	1f 92       	push	r1
- 13e:	0f 92       	push	r0
- 140:	0f b6       	in	r0, 0x3f	; 63
- 142:	0f 92       	push	r0
- 144:	11 24       	eor	r1, r1
- 146:	2f 93       	push	r18
- 148:	3f 93       	push	r19
- 14a:	4f 93       	push	r20
- 14c:	5f 93       	push	r21
- 14e:	6f 93       	push	r22
- 150:	7f 93       	push	r23
- 152:	8f 93       	push	r24
- 154:	9f 93       	push	r25
- 156:	af 93       	push	r26
- 158:	bf 93       	push	r27
- 15a:	ef 93       	push	r30
- 15c:	ff 93       	push	r31
+ 150:	1f 92       	push	r1
+ 152:	0f 92       	push	r0
+ 154:	0f b6       	in	r0, 0x3f	; 63
+ 156:	0f 92       	push	r0
+ 158:	11 24       	eor	r1, r1
+ 15a:	2f 93       	push	r18
+ 15c:	3f 93       	push	r19
+ 15e:	4f 93       	push	r20
+ 160:	5f 93       	push	r21
+ 162:	6f 93       	push	r22
+ 164:	7f 93       	push	r23
+ 166:	8f 93       	push	r24
+ 168:	9f 93       	push	r25
+ 16a:	af 93       	push	r26
+ 16c:	bf 93       	push	r27
+ 16e:	ef 93       	push	r30
+ 170:	ff 93       	push	r31
 	m = UDR;
- 15e:	2c b1       	in	r18, 0x0c	; 12
- 160:	20 93 7b 00 	sts	0x007B, r18	; 0x80007b <m>
+ 172:	2c b1       	in	r18, 0x0c	; 12
+ 174:	20 93 7b 00 	sts	0x007B, r18	; 0x80007b <m>
 	if ((m & CHECK_BIT)==CHECK_BIT){
- 164:	82 2f       	mov	r24, r18
- 166:	81 78       	andi	r24, 0x81	; 129
- 168:	81 38       	cpi	r24, 0x81	; 129
- 16a:	79 f5       	brne	.+94     	; 0x1ca <__vector_13+0x8e>
+ 178:	82 2f       	mov	r24, r18
+ 17a:	81 78       	andi	r24, 0x81	; 129
+ 17c:	81 38       	cpi	r24, 0x81	; 129
+ 17e:	79 f5       	brne	.+94     	; 0x1de <__vector_13+0x8e>
 		rot = (m & ROT_BIT) >> 4;
- 16c:	62 2f       	mov	r22, r18
- 16e:	60 71       	andi	r22, 0x10	; 16
- 170:	70 e0       	ldi	r23, 0x00	; 0
- 172:	75 95       	asr	r23
- 174:	67 95       	ror	r22
- 176:	75 95       	asr	r23
- 178:	67 95       	ror	r22
- 17a:	75 95       	asr	r23
- 17c:	67 95       	ror	r22
- 17e:	75 95       	asr	r23
- 180:	67 95       	ror	r22
- 182:	60 93 78 00 	sts	0x0078, r22	; 0x800078 <__data_end>
+ 180:	62 2f       	mov	r22, r18
+ 182:	60 71       	andi	r22, 0x10	; 16
+ 184:	70 e0       	ldi	r23, 0x00	; 0
+ 186:	75 95       	asr	r23
+ 188:	67 95       	ror	r22
+ 18a:	75 95       	asr	r23
+ 18c:	67 95       	ror	r22
+ 18e:	75 95       	asr	r23
+ 190:	67 95       	ror	r22
+ 192:	75 95       	asr	r23
+ 194:	67 95       	ror	r22
+ 196:	60 93 78 00 	sts	0x0078, r22	; 0x800078 <__data_end>
 		gripper_number = (m & GRIPPER_NUMBER_BIT)>>5;
- 186:	82 2f       	mov	r24, r18
- 188:	80 76       	andi	r24, 0x60	; 96
- 18a:	90 e0       	ldi	r25, 0x00	; 0
- 18c:	95 95       	asr	r25
- 18e:	87 95       	ror	r24
- 190:	95 95       	asr	r25
- 192:	87 95       	ror	r24
- 194:	95 95       	asr	r25
- 196:	87 95       	ror	r24
- 198:	95 95       	asr	r25
- 19a:	87 95       	ror	r24
- 19c:	95 95       	asr	r25
- 19e:	87 95       	ror	r24
- 1a0:	80 93 79 00 	sts	0x0079, r24	; 0x800079 <gripper_number>
+ 19a:	82 2f       	mov	r24, r18
+ 19c:	80 76       	andi	r24, 0x60	; 96
+ 19e:	90 e0       	ldi	r25, 0x00	; 0
+ 1a0:	95 95       	asr	r25
+ 1a2:	87 95       	ror	r24
+ 1a4:	95 95       	asr	r25
+ 1a6:	87 95       	ror	r24
+ 1a8:	95 95       	asr	r25
+ 1aa:	87 95       	ror	r24
+ 1ac:	95 95       	asr	r25
+ 1ae:	87 95       	ror	r24
+ 1b0:	95 95       	asr	r25
+ 1b2:	87 95       	ror	r24
+ 1b4:	80 93 79 00 	sts	0x0079, r24	; 0x800079 <gripper_number>
 		open = (m & OPEN_BIT) >> 3;
- 1a4:	28 70       	andi	r18, 0x08	; 8
- 1a6:	30 e0       	ldi	r19, 0x00	; 0
- 1a8:	35 95       	asr	r19
- 1aa:	27 95       	ror	r18
- 1ac:	35 95       	asr	r19
- 1ae:	27 95       	ror	r18
- 1b0:	35 95       	asr	r19
- 1b2:	27 95       	ror	r18
- 1b4:	20 93 7c 00 	sts	0x007C, r18	; 0x80007c <open>
+ 1b8:	28 70       	andi	r18, 0x08	; 8
+ 1ba:	30 e0       	ldi	r19, 0x00	; 0
+ 1bc:	35 95       	asr	r19
+ 1be:	27 95       	ror	r18
+ 1c0:	35 95       	asr	r19
+ 1c2:	27 95       	ror	r18
+ 1c4:	35 95       	asr	r19
+ 1c6:	27 95       	ror	r18
+ 1c8:	20 93 7c 00 	sts	0x007C, r18	; 0x80007c <open>
 		rot_servo(gripper_number, rot);
- 1b8:	0e 94 7e 00 	call	0xfc	; 0xfc <rot_servo>
+ 1cc:	0e 94 7e 00 	call	0xfc	; 0xfc <rot_servo>
 		open_serv(gripper_number, open);
- 1bc:	60 91 7c 00 	lds	r22, 0x007C	; 0x80007c <open>
- 1c0:	80 91 79 00 	lds	r24, 0x0079	; 0x800079 <gripper_number>
- 1c4:	0e 94 8e 00 	call	0x11c	; 0x11c <open_serv>
- 1c8:	05 c0       	rjmp	.+10     	; 0x1d4 <__vector_13+0x98>
+ 1d0:	60 91 7c 00 	lds	r22, 0x007C	; 0x80007c <open>
+ 1d4:	80 91 79 00 	lds	r24, 0x0079	; 0x800079 <gripper_number>
+ 1d8:	0e 94 98 00 	call	0x130	; 0x130 <open_serv>
+ 1dc:	05 c0       	rjmp	.+10     	; 0x1e8 <__vector_13+0x98>
 	}
 	else {
 		error = 1;
- 1ca:	81 e0       	ldi	r24, 0x01	; 1
- 1cc:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <error>
+ 1de:	81 e0       	ldi	r24, 0x01	; 1
+ 1e0:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <error>
 		uart_transmit(error);
- 1d0:	0e 94 53 00 	call	0xa6	; 0xa6 <uart_transmit>
+ 1e4:	0e 94 53 00 	call	0xa6	; 0xa6 <uart_transmit>
 	}
 }
- 1d4:	ff 91       	pop	r31
- 1d6:	ef 91       	pop	r30
- 1d8:	bf 91       	pop	r27
- 1da:	af 91       	pop	r26
- 1dc:	9f 91       	pop	r25
- 1de:	8f 91       	pop	r24
- 1e0:	7f 91       	pop	r23
- 1e2:	6f 91       	pop	r22
- 1e4:	5f 91       	pop	r21
- 1e6:	4f 91       	pop	r20
- 1e8:	3f 91       	pop	r19
- 1ea:	2f 91       	pop	r18
- 1ec:	0f 90       	pop	r0
- 1ee:	0f be       	out	0x3f, r0	; 63
- 1f0:	0f 90       	pop	r0
- 1f2:	1f 90       	pop	r1
- 1f4:	18 95       	reti
+ 1e8:	ff 91       	pop	r31
+ 1ea:	ef 91       	pop	r30
+ 1ec:	bf 91       	pop	r27
+ 1ee:	af 91       	pop	r26
+ 1f0:	9f 91       	pop	r25
+ 1f2:	8f 91       	pop	r24
+ 1f4:	7f 91       	pop	r23
+ 1f6:	6f 91       	pop	r22
+ 1f8:	5f 91       	pop	r21
+ 1fa:	4f 91       	pop	r20
+ 1fc:	3f 91       	pop	r19
+ 1fe:	2f 91       	pop	r18
+ 200:	0f 90       	pop	r0
+ 202:	0f be       	out	0x3f, r0	; 63
+ 204:	0f 90       	pop	r0
+ 206:	1f 90       	pop	r1
+ 208:	18 95       	reti
 
-000001f6 <main>:
+0000020a <main>:
 
 
 int main(void) {
 	
 	set_timer_pwm(); 
- 1f6:	0e 94 66 00 	call	0xcc	; 0xcc <set_timer_pwm>
+ 20a:	0e 94 66 00 	call	0xcc	; 0xcc <set_timer_pwm>
 	setup_uart();
- 1fa:	0e 94 49 00 	call	0x92	; 0x92 <setup_uart>
+ 20e:	0e 94 49 00 	call	0x92	; 0x92 <setup_uart>
 
 
 	while(1){
 		for (int i=0; i < 4; i++) {
- 1fe:	80 e0       	ldi	r24, 0x00	; 0
- 200:	90 e0       	ldi	r25, 0x00	; 0
- 202:	57 c0       	rjmp	.+174    	; 0x2b2 <main+0xbc>
+ 212:	80 e0       	ldi	r24, 0x00	; 0
+ 214:	90 e0       	ldi	r25, 0x00	; 0
+ 216:	57 c0       	rjmp	.+174    	; 0x2c6 <main+0xbc>
 			if (TCNT1 >= 500 && TCNT1 <= 2500){
- 204:	2c b5       	in	r18, 0x2c	; 44
- 206:	3d b5       	in	r19, 0x2d	; 45
- 208:	24 3f       	cpi	r18, 0xF4	; 244
- 20a:	31 40       	sbci	r19, 0x01	; 1
- 20c:	08 f4       	brcc	.+2      	; 0x210 <main+0x1a>
- 20e:	50 c0       	rjmp	.+160    	; 0x2b0 <main+0xba>
- 210:	2c b5       	in	r18, 0x2c	; 44
- 212:	3d b5       	in	r19, 0x2d	; 45
- 214:	25 3c       	cpi	r18, 0xC5	; 197
- 216:	39 40       	sbci	r19, 0x09	; 9
- 218:	08 f0       	brcs	.+2      	; 0x21c <main+0x26>
- 21a:	4a c0       	rjmp	.+148    	; 0x2b0 <main+0xba>
+ 218:	2c b5       	in	r18, 0x2c	; 44
+ 21a:	3d b5       	in	r19, 0x2d	; 45
+ 21c:	24 3f       	cpi	r18, 0xF4	; 244
+ 21e:	31 40       	sbci	r19, 0x01	; 1
+ 220:	08 f4       	brcc	.+2      	; 0x224 <main+0x1a>
+ 222:	50 c0       	rjmp	.+160    	; 0x2c4 <main+0xba>
+ 224:	2c b5       	in	r18, 0x2c	; 44
+ 226:	3d b5       	in	r19, 0x2d	; 45
+ 228:	25 3c       	cpi	r18, 0xC5	; 197
+ 22a:	39 40       	sbci	r19, 0x09	; 9
+ 22c:	08 f0       	brcs	.+2      	; 0x230 <main+0x26>
+ 22e:	4a c0       	rjmp	.+148    	; 0x2c4 <main+0xba>
 				if (TCNT1 >= gripper_rot[i] && bit_is_set(PORTD , servo_rot_pin[i])) PORTD &= ~(1 << servo_rot_pin[i]);
- 21c:	4c b5       	in	r20, 0x2c	; 44
- 21e:	5d b5       	in	r21, 0x2d	; 45
- 220:	fc 01       	movw	r30, r24
- 222:	ee 0f       	add	r30, r30
- 224:	ff 1f       	adc	r31, r31
- 226:	e0 59       	subi	r30, 0x90	; 144
- 228:	ff 4f       	sbci	r31, 0xFF	; 255
- 22a:	20 81       	ld	r18, Z
- 22c:	31 81       	ldd	r19, Z+1	; 0x01
- 22e:	42 17       	cp	r20, r18
- 230:	53 07       	cpc	r21, r19
- 232:	c8 f0       	brcs	.+50     	; 0x266 <main+0x70>
- 234:	22 b3       	in	r18, 0x12	; 18
- 236:	fc 01       	movw	r30, r24
- 238:	ec 59       	subi	r30, 0x9C	; 156
- 23a:	ff 4f       	sbci	r31, 0xFF	; 255
- 23c:	40 81       	ld	r20, Z
- 23e:	30 e0       	ldi	r19, 0x00	; 0
- 240:	04 2e       	mov	r0, r20
- 242:	02 c0       	rjmp	.+4      	; 0x248 <main+0x52>
- 244:	35 95       	asr	r19
- 246:	27 95       	ror	r18
- 248:	0a 94       	dec	r0
- 24a:	e2 f7       	brpl	.-8      	; 0x244 <main+0x4e>
- 24c:	20 ff       	sbrs	r18, 0
- 24e:	0b c0       	rjmp	.+22     	; 0x266 <main+0x70>
- 250:	52 b3       	in	r21, 0x12	; 18
- 252:	21 e0       	ldi	r18, 0x01	; 1
- 254:	30 e0       	ldi	r19, 0x00	; 0
- 256:	02 c0       	rjmp	.+4      	; 0x25c <main+0x66>
- 258:	22 0f       	add	r18, r18
- 25a:	33 1f       	adc	r19, r19
- 25c:	4a 95       	dec	r20
- 25e:	e2 f7       	brpl	.-8      	; 0x258 <main+0x62>
- 260:	20 95       	com	r18
- 262:	25 23       	and	r18, r21
- 264:	22 bb       	out	0x12, r18	; 18
+ 230:	4c b5       	in	r20, 0x2c	; 44
+ 232:	5d b5       	in	r21, 0x2d	; 45
+ 234:	fc 01       	movw	r30, r24
+ 236:	ee 0f       	add	r30, r30
+ 238:	ff 1f       	adc	r31, r31
+ 23a:	e0 59       	subi	r30, 0x90	; 144
+ 23c:	ff 4f       	sbci	r31, 0xFF	; 255
+ 23e:	20 81       	ld	r18, Z
+ 240:	31 81       	ldd	r19, Z+1	; 0x01
+ 242:	42 17       	cp	r20, r18
+ 244:	53 07       	cpc	r21, r19
+ 246:	c8 f0       	brcs	.+50     	; 0x27a <main+0x70>
+ 248:	22 b3       	in	r18, 0x12	; 18
+ 24a:	fc 01       	movw	r30, r24
+ 24c:	ec 59       	subi	r30, 0x9C	; 156
+ 24e:	ff 4f       	sbci	r31, 0xFF	; 255
+ 250:	40 81       	ld	r20, Z
+ 252:	30 e0       	ldi	r19, 0x00	; 0
+ 254:	04 2e       	mov	r0, r20
+ 256:	02 c0       	rjmp	.+4      	; 0x25c <main+0x52>
+ 258:	35 95       	asr	r19
+ 25a:	27 95       	ror	r18
+ 25c:	0a 94       	dec	r0
+ 25e:	e2 f7       	brpl	.-8      	; 0x258 <main+0x4e>
+ 260:	20 ff       	sbrs	r18, 0
+ 262:	0b c0       	rjmp	.+22     	; 0x27a <main+0x70>
+ 264:	52 b3       	in	r21, 0x12	; 18
+ 266:	21 e0       	ldi	r18, 0x01	; 1
+ 268:	30 e0       	ldi	r19, 0x00	; 0
+ 26a:	02 c0       	rjmp	.+4      	; 0x270 <main+0x66>
+ 26c:	22 0f       	add	r18, r18
+ 26e:	33 1f       	adc	r19, r19
+ 270:	4a 95       	dec	r20
+ 272:	e2 f7       	brpl	.-8      	; 0x26c <main+0x62>
+ 274:	20 95       	com	r18
+ 276:	25 23       	and	r18, r21
+ 278:	22 bb       	out	0x12, r18	; 18
 				
 				if (TCNT1 > gripper_open[i]&& bit_is_set(PORTA , servo_open_pin[i])) PORTA &= ~(1 << servo_open_pin[i]);
- 266:	4c b5       	in	r20, 0x2c	; 44
- 268:	5d b5       	in	r21, 0x2d	; 45
- 26a:	fc 01       	movw	r30, r24
- 26c:	ee 0f       	add	r30, r30
- 26e:	ff 1f       	adc	r31, r31
- 270:	e8 59       	subi	r30, 0x98	; 152
- 272:	ff 4f       	sbci	r31, 0xFF	; 255
- 274:	20 81       	ld	r18, Z
- 276:	31 81       	ldd	r19, Z+1	; 0x01
- 278:	24 17       	cp	r18, r20
- 27a:	35 07       	cpc	r19, r21
- 27c:	c8 f4       	brcc	.+50     	; 0x2b0 <main+0xba>
- 27e:	2b b3       	in	r18, 0x1b	; 27
- 280:	fc 01       	movw	r30, r24
- 282:	e0 5a       	subi	r30, 0xA0	; 160
- 284:	ff 4f       	sbci	r31, 0xFF	; 255
- 286:	40 81       	ld	r20, Z
- 288:	30 e0       	ldi	r19, 0x00	; 0
- 28a:	04 2e       	mov	r0, r20
- 28c:	02 c0       	rjmp	.+4      	; 0x292 <main+0x9c>
- 28e:	35 95       	asr	r19
- 290:	27 95       	ror	r18
- 292:	0a 94       	dec	r0
- 294:	e2 f7       	brpl	.-8      	; 0x28e <main+0x98>
- 296:	20 ff       	sbrs	r18, 0
- 298:	0b c0       	rjmp	.+22     	; 0x2b0 <main+0xba>
- 29a:	5b b3       	in	r21, 0x1b	; 27
- 29c:	21 e0       	ldi	r18, 0x01	; 1
- 29e:	30 e0       	ldi	r19, 0x00	; 0
- 2a0:	02 c0       	rjmp	.+4      	; 0x2a6 <main+0xb0>
- 2a2:	22 0f       	add	r18, r18
- 2a4:	33 1f       	adc	r19, r19
- 2a6:	4a 95       	dec	r20
- 2a8:	e2 f7       	brpl	.-8      	; 0x2a2 <main+0xac>
- 2aa:	20 95       	com	r18
- 2ac:	25 23       	and	r18, r21
- 2ae:	2b bb       	out	0x1b, r18	; 27
+ 27a:	4c b5       	in	r20, 0x2c	; 44
+ 27c:	5d b5       	in	r21, 0x2d	; 45
+ 27e:	fc 01       	movw	r30, r24
+ 280:	ee 0f       	add	r30, r30
+ 282:	ff 1f       	adc	r31, r31
+ 284:	e8 59       	subi	r30, 0x98	; 152
+ 286:	ff 4f       	sbci	r31, 0xFF	; 255
+ 288:	20 81       	ld	r18, Z
+ 28a:	31 81       	ldd	r19, Z+1	; 0x01
+ 28c:	24 17       	cp	r18, r20
+ 28e:	35 07       	cpc	r19, r21
+ 290:	c8 f4       	brcc	.+50     	; 0x2c4 <main+0xba>
+ 292:	2b b3       	in	r18, 0x1b	; 27
+ 294:	fc 01       	movw	r30, r24
+ 296:	e0 5a       	subi	r30, 0xA0	; 160
+ 298:	ff 4f       	sbci	r31, 0xFF	; 255
+ 29a:	40 81       	ld	r20, Z
+ 29c:	30 e0       	ldi	r19, 0x00	; 0
+ 29e:	04 2e       	mov	r0, r20
+ 2a0:	02 c0       	rjmp	.+4      	; 0x2a6 <main+0x9c>
+ 2a2:	35 95       	asr	r19
+ 2a4:	27 95       	ror	r18
+ 2a6:	0a 94       	dec	r0
+ 2a8:	e2 f7       	brpl	.-8      	; 0x2a2 <main+0x98>
+ 2aa:	20 ff       	sbrs	r18, 0
+ 2ac:	0b c0       	rjmp	.+22     	; 0x2c4 <main+0xba>
+ 2ae:	5b b3       	in	r21, 0x1b	; 27
+ 2b0:	21 e0       	ldi	r18, 0x01	; 1
+ 2b2:	30 e0       	ldi	r19, 0x00	; 0
+ 2b4:	02 c0       	rjmp	.+4      	; 0x2ba <main+0xb0>
+ 2b6:	22 0f       	add	r18, r18
+ 2b8:	33 1f       	adc	r19, r19
+ 2ba:	4a 95       	dec	r20
+ 2bc:	e2 f7       	brpl	.-8      	; 0x2b6 <main+0xac>
+ 2be:	20 95       	com	r18
+ 2c0:	25 23       	and	r18, r21
+ 2c2:	2b bb       	out	0x1b, r18	; 27
 	set_timer_pwm(); 
 	setup_uart();
 
 
 	while(1){
 		for (int i=0; i < 4; i++) {
- 2b0:	01 96       	adiw	r24, 0x01	; 1
- 2b2:	84 30       	cpi	r24, 0x04	; 4
- 2b4:	91 05       	cpc	r25, r1
- 2b6:	0c f4       	brge	.+2      	; 0x2ba <main+0xc4>
- 2b8:	a5 cf       	rjmp	.-182    	; 0x204 <main+0xe>
- 2ba:	a1 cf       	rjmp	.-190    	; 0x1fe <main+0x8>
+ 2c4:	01 96       	adiw	r24, 0x01	; 1
+ 2c6:	84 30       	cpi	r24, 0x04	; 4
+ 2c8:	91 05       	cpc	r25, r1
+ 2ca:	0c f4       	brge	.+2      	; 0x2ce <main+0xc4>
+ 2cc:	a5 cf       	rjmp	.-182    	; 0x218 <main+0xe>
+ 2ce:	a1 cf       	rjmp	.-190    	; 0x212 <main+0x8>
 
-000002bc <_exit>:
- 2bc:	f8 94       	cli
+000002d0 <_exit>:
+ 2d0:	f8 94       	cli
 
-000002be <__stop_program>:
- 2be:	ff cf       	rjmp	.-2      	; 0x2be <__stop_program>
+000002d2 <__stop_program>:
+ 2d2:	ff cf       	rjmp	.-2      	; 0x2d2 <__stop_program>
