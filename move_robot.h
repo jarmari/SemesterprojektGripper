@@ -36,7 +36,7 @@ class Robot_control{
 
         // Variables to store positions for PICKING LEGOs
         uint16_t x_pos_pick, y_pos_pick;
-        std::vector <double> z_pos_down_LS = {-31.40, 78.65, 197,46, 85.94};        
+        std::vector <double> z_pos_down_LS = {-31.40, 78.65, 197.46, 85.94};
         std::vector <double> z_pos_down_WS = {-29.67, 83.87, 198.7, 88.10};
         std::vector <double> z_pos_up = {69.73, 183.27, 298.1, 187.5};
         double x_rot  = 0; 
@@ -163,6 +163,8 @@ class Robot_control{
         }
 
         void loop3_drop(int i, int j){
+            int k = 0;
+
             for(int l = 0; l < 8*rest; l+=2){ // rest = 1, but if only needs to fetch 2 legos it stops the loop after 2 because then rest = 0.5
                 /* PICKING MOTION */
                 x_pos_place = wordCoords[i][j+l]; // Ikke rigtigt??
@@ -171,22 +173,21 @@ class Robot_control{
                 // y-coord
                 y_pos_place = wordCoords[i][j+l+1]; //Ikke rigtigt??
                 std::cout << "y(" << y_pos_place << ")" << std::endl;
-//                x_pos_pick = legoPos[i_pick][j_pick];
-//                y_pos_pick = legoPos[i_pick][j_pick+1];
-//                j_pick = 0;
-//                i_pick++;
-                x_Coord = WS_TCP[l][0];
-                y_Coord = WS_TCP[l][1];
-                z_Coord_down = z_pos_down_LS[l];
-                z_Coord_up = z_pos_up[l];
-                rotAngle = WS_TCP[l][2]; //eller bare 2 istedet for two?
-                x_rot = x_rot_vec[l];
-                y_rot = y_rot_vec[l];
-                z_rot = z_rot_vec[l];
+
+                x_Coord = WS_TCP[k][0];
+                y_Coord = WS_TCP[k][1];
+                z_Coord_down = z_pos_down_WS[k];
+                z_Coord_up = z_pos_up[k];
+                rotAngle = WS_TCP[k][2]; //eller bare 2 istedet for two?
+                x_rot = x_rot_vec[k];
+                y_rot = y_rot_vec[k];
+                z_rot = z_rot_vec[k];
 
                 move(WS_Gap, z_Coord_up);
                 move(WS_Gap, z_Coord_down);
                 move(WS_Gap, z_Coord_up);
+
+                k++;
             } 
         }
 
