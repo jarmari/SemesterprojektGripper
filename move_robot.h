@@ -8,7 +8,7 @@
 #define REG_ROT_X 133
 #define REG_ROT_Y 134
 #define REG_ROT_Z 135
-#define REG_CONTROL 128
+#define REG_CONTROL 136
 
 //Includes: 
 #include "DBfetch.h"
@@ -36,19 +36,19 @@ class Robot_control{
 
         // Variables to store positions for PICKING LEGOs
         uint16_t x_pos_pick, y_pos_pick;
-        std::vector <double> z_pos_down_LS = {-31.40, 78.65, 197.46, 85.94};
-        std::vector <double> z_pos_down_WS = {-29.67, 83.87, 198.7, 88.10};
-        std::vector <double> z_pos_up = {69.73, 183.27, 298.1, 187.5};
-        double x_rot  = 0; 
+        std::vector <double> z_pos_down_LS = {-10.8, 82.8, 176.7, 85.0};
+        std::vector <double> z_pos_down_WS = {-9.6, 84.3, 178.1, 84.7};
+        std::vector <double> z_pos_up = {187.0, 279.3, 373.2, 271.7}; ///ÆNDREEE
+        double x_rot  = 0;
         double y_rot;
         double z_rot;
 
-        std::vector <double> x_rot_vec = {0.15, 1.31, 1.56, 0.63};
-        std::vector <double> y_rot_vec = {-0.5, 3.29, 2.93, 1.57};
-        std::vector <double> z_rot_vec = {-1.62, -2.35, 0, 1.16};
+        std::vector <double> x_rot_vec = {1.16, 1.57, 0.05, 0.63};
+        std::vector <double> y_rot_vec = {-2.92, -4.45, 0.02, -1.44};
+        std::vector <double> z_rot_vec = {0.14, 0.18, -0.01, 0.11};
 
-        std::vector<std::vector<double>> LS_TCP = {{366.03, -443.78, 2.74}, {478.75,-404.33, 2.74}, {372.19,-439.06,2.73}, {255.36,-479.81,2.74}}; //Ændre til rigtige mål for vinkel og origo af frame for hver "TCP"
-        std::vector<std::vector<double>> WS_TCP = {{488.33, -604.26, 2.73}, {597.15,-569.76, 2.76}, {494.73,-598.30, 2.74}, {383.73,-650.27, 2.78}}; //Ændre til rigtige mål for vinkel og origo af frame for hver "TCP"
+        std::vector<std::vector<double>> LS_TCP = {{311.8, -305.1, 2.74}, {400.0, -274.5, 2.70}, {313.9,-310.5, 2.77}, {229.7,-344.2, 2.75}}; //Ændre til rigtige mål for vinkel og origo af frame for hver "TCP"
+        std::vector<std::vector<double>> WS_TCP = {{432.3, -466.1, 2.75}, {520.3, -433.0, 2.76}, {431.3,-462.9, 2.75}, {349.0, -505.2, 2.75}}; //Ændre til rigtige mål for vinkel og origo af frame for hver "TCP"
         double LS_Gap = 16.25; //mm
         double WS_Gap = 8; //mm
 
@@ -92,17 +92,17 @@ class Robot_control{
         }
 
         void control_sleep (){
-            _mb.modbus_read_holding_registers(128, 1, controlBit);
+            _mb.modbus_read_holding_registers(REG_CONTROL, 1, controlBit);
             
             std::this_thread::sleep_for(std::chrono::milliseconds(1));  
             
-            _mb.modbus_write_register(128, 0);
+            _mb.modbus_write_register(REG_CONTROL, 0);
             std::this_thread::sleep_for(std::chrono::seconds(5));
 
-            _mb.modbus_write_register(128, 1);
+            _mb.modbus_write_register(REG_CONTROL, 1);
             std::this_thread::sleep_for(std::chrono::seconds(1));      // Wait
 
-            _mb.modbus_write_register(128, 0);
+            _mb.modbus_write_register(REG_CONTROL, 0);
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
 
@@ -184,7 +184,9 @@ class Robot_control{
                 z_rot = z_rot_vec[k];
 
                 move(WS_Gap, z_Coord_up);
+                //open
                 move(WS_Gap, z_Coord_down);
+                //close
                 move(WS_Gap, z_Coord_up);
 
                 k++;
@@ -201,13 +203,13 @@ class Robot_control{
                     Matrix position = TransPlace.BaseToTarget(x_Coord, y_Coord, z_Coord_down, rotAngle, GAP);
 
                     /* Writing positions to robot registers */
-                    _mb.modbus_read_holding_registers(128, 1, controlBit);
+                    _mb.modbus_read_holding_registers(REG_CONTROL, 1, controlBit);
                     std::this_thread::sleep_for(std::chrono::seconds(1));
 
                     while(controlBit[0] == 0) {
                         std::this_thread::sleep_for(std::chrono::milliseconds(1));       // Wait
 
-                        _mb.modbus_read_holding_registers(128, 1, controlBit);
+                        _mb.modbus_read_holding_registers(REG_CONTROL, 1, controlBit);
                         std::cout << "Pos ready for sending, controlBit = " << controlBit[0] << std::endl;
 
                         _mb.modbus_write_register(REG_X, position(0,0)*10);
@@ -220,7 +222,7 @@ class Robot_control{
 
                         std::this_thread::sleep_for(std::chrono::milliseconds(1));       // Wait
 
-                        _mb.modbus_read_holding_registers(128, 1, controlBit);
+                        _mb.modbus_read_holding_registers(REG_CONTROL, 1, controlBit);
                         std::cout << "Pos sendt, controlBit = " << controlBit[0] << std::endl;
 
                         debug(position, z_Coord);
@@ -249,7 +251,7 @@ class Robot_control{
             std::cout << "yrot: " << y_rot << std::endl;
             std::cout << "zrot: " << z_rot << std::endl;
 
-            _mb.modbus_read_holding_registers(128, 1, controlBit);
+            _mb.modbus_read_holding_registers(REG_CONTROL, 1, controlBit);
             std::cout << "Pos sendt, controlBit = " << controlBit[0] << std::endl;
             std::cout << "---------------------------------------------------------" << std::endl;
             counter++;
