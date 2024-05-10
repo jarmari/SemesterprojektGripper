@@ -113,7 +113,7 @@ QSoundEffect sbee;
 
 void loadStuff(){
     //load images
-    std::string filepathAppendix = "/home/lucas/workspace/2. Semester/Semesterprojekt_AutonomeRobotter/mainProgram/src/img/";
+    std::string filepathAppendix = "/home/laura/Desktop/Semesterprojekt_2/Projekt_kode/Semesterprojekt_2/img/"; //ÆNDRE
     imggui = cv::imread(filepathAppendix+"kategori2.jpg", cv::IMREAD_COLOR);
     imgfruits = cv::imread(filepathAppendix+"green/fruits2.png", cv::IMREAD_COLOR);
     imgclothing = cv::imread(filepathAppendix+"green/clothing2.png", cv::IMREAD_COLOR);
@@ -246,58 +246,89 @@ void newWindow(cv::String text, cv::String destroy, cv::Mat img){
 
 void loadSounds(){
 
-    category.setSource(QUrl::fromLocalFile("/home/lucas/workspace/2. Semester/Semesterprojekt_AutonomeRobotter/mainProgram/src/sounds/category.wav"));
+        char filepathAppendix[] = "/home/sarah/Desktop/semester_projekt/GUI/sounds/";
+    char info[1000];
+    std::memcpy(info, filepathAppendix, 1000);
+
+    category.setSource(QUrl::fromLocalFile(std::strcat(info, "category.wav")));
     category.setLoopCount(1);
     category.setVolume(100);
 
-    fruits.setSource(QUrl::fromLocalFile("/home/lucas/workspace/2. Semester/Semesterprojekt_AutonomeRobotter/mainProgram/src/sounds/fruits.wav"));
+    std::memcpy(info, filepathAppendix, 1000);
+
+    fruits.setSource(QUrl::fromLocalFile(std::strcat(info,"fruits.wav")));
     fruits.setLoopCount(1);
     fruits.setVolume(100);
 
-    clothing.setSource(QUrl::fromLocalFile("/home/lucas/workspace/2. Semester/Semesterprojekt_AutonomeRobotter/mainProgram/src/sounds/clothing.wav"));
+    std::memcpy(info, filepathAppendix, 1000);
+
+    clothing.setSource(QUrl::fromLocalFile(std::strcat(info,"clothing.wav")));
     clothing.setLoopCount(1);
     clothing.setVolume(100);
 
-    animals.setSource(QUrl::fromLocalFile("/home/lucas/workspace/2. Semester/Semesterprojekt_AutonomeRobotter/mainProgram/src/sounds/animals.wav"));
+    std::memcpy(info, filepathAppendix, 1000);
+
+    animals.setSource(QUrl::fromLocalFile(std::strcat(info,"animals.wav")));
     animals.setLoopCount(1);
     animals.setVolume(100);
 
-    sorange.setSource(QUrl::fromLocalFile("/home/lucas/workspace/2. Semester/Semesterprojekt_AutonomeRobotter/mainProgram/src/sounds/orange.wav"));
+    std::memcpy(info, filepathAppendix, 1000);
+
+    sorange.setSource(QUrl::fromLocalFile(std::strcat(info, "orange.wav")));
     sorange.setLoopCount(1);
     sorange.setVolume(100);
 
-    sgrapes.setSource(QUrl::fromLocalFile("/home/lucas/workspace/2. Semester/Semesterprojekt_AutonomeRobotter/mainProgram/src/sounds/grape.wav"));
+    std::memcpy(info, filepathAppendix, 1000);
+
+    sgrapes.setSource(QUrl::fromLocalFile(std::strcat(info, "grape.wav")));
     sgrapes.setLoopCount(1);
     sgrapes.setVolume(100);
 
-    sapple.setSource(QUrl::fromLocalFile("/home/lucas/workspace/2. Semester/Semesterprojekt_AutonomeRobotter/mainProgram/src/sounds/apple.wav"));
+    std::memcpy(info, filepathAppendix, 1000);
+
+    sapple.setSource(QUrl::fromLocalFile(std::strcat(info, "apple.wav")));
     sapple.setLoopCount(1);
     sapple.setVolume(100);
 
-    shat.setSource(QUrl::fromLocalFile("/home/lucas/workspace/2. Semester/Semesterprojekt_AutonomeRobotter/mainProgram/src/sounds/hat.wav"));
+    std::memcpy(info, filepathAppendix, 1000);
+
+    shat.setSource(QUrl::fromLocalFile(std::strcat(info, "hat.wav")));
     shat.setLoopCount(1);
     shat.setVolume(100);
 
-    sshirt.setSource(QUrl::fromLocalFile("/home/lucas/workspace/2. Semester/Semesterprojekt_AutonomeRobotter/mainProgram/src/sounds/shirt.wav"));
+    std::memcpy(info, filepathAppendix, 1000);
+
+    sshirt.setSource(QUrl::fromLocalFile(std::strcat(info, "shirt.wav")));
     sshirt.setLoopCount(1);
     sshirt.setVolume(100);
 
-    spants.setSource(QUrl::fromLocalFile("/home/lucas/workspace/2. Semester/Semesterprojekt_AutonomeRobotter/mainProgram/src/sounds/pants.wav"));
+    std::memcpy(info, filepathAppendix, 1000);
+
+    spants.setSource(QUrl::fromLocalFile(std::strcat(info, "pants.wav")));
     spants.setLoopCount(1);
     spants.setVolume(100);
 
-    sdog.setSource(QUrl::fromLocalFile("/home/lucas/workspace/2. Semester/Semesterprojekt_AutonomeRobotter/mainProgram/src/sounds/dog.wav"));
+    std::memcpy(info, filepathAppendix, 1000);
+
+    sdog.setSource(QUrl::fromLocalFile(std::strcat(info, "dog.wav")));
     sdog.setLoopCount(1);
     sdog.setVolume(100);
 
-    scow.setSource(QUrl::fromLocalFile("/home/lucas/workspace/2. Semester/Semesterprojekt_AutonomeRobotter/mainProgram/src/sounds/cow.wav"));
+    std::memcpy(info, filepathAppendix, 1000);
+
+    scow.setSource(QUrl::fromLocalFile(std::strcat(info, "cow.wav")));
     scow.setLoopCount(1);
     scow.setVolume(100);
 
-    sbee.setSource(QUrl::fromLocalFile("/home/lucas/workspace/2. Semester/Semesterprojekt_AutonomeRobotter/mainProgram/src/sounds/bee.wav"));
+    std::memcpy(info, filepathAppendix, 1000);
+
+    sbee.setSource(QUrl::fromLocalFile(std::strcat(info, "bee.wav")));
     sbee.setLoopCount(1);
     sbee.setVolume(100);
+
+    std::memcpy(info, filepathAppendix, 1000);
 }
+
 
 void callBackFunc2(int event, int x, int y, int flags, void* userdata){
     if (event == cv::EVENT_LBUTTONDOWN){
