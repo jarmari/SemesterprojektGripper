@@ -8,7 +8,8 @@
 #define REG_ROT_X 133
 #define REG_ROT_Y 134
 #define REG_ROT_Z 135
-#define REG_CONTROL 136
+#define REG_CONTROL 128
+#define REG_FLANGE 129
 
 //Includes: 
 #include "DBfetch.h"
@@ -33,13 +34,14 @@ class Robot_control{
         uint16_t ycontrolBit[1];
         uint16_t zcontrolBit[1];
         uint16_t x_pos_place, y_pos_place;
+        uint16_t flangeBit[1];
 
         // Variables to store positions for PICKING LEGOs
         uint16_t x_pos_pick, y_pos_pick;
         std::vector <double> z_pos_down_LS = {-10.8, 82.8, 176.7, 85.0};
         std::vector <double> z_pos_down_WS = {-9.6, 84.3, 178.1, 84.7};
-        std::vector <double> z_pos_up = {187.0, 279.3, 373.2, 271.7}; ///ÆNDREEE
-        double x_rot  = 0;
+        std::vector <double> z_pos_up = {187.0, 279.3, 373.2, 271.7};
+        double x_rot;
         double y_rot;
         double z_rot;
 
@@ -47,17 +49,10 @@ class Robot_control{
         std::vector <double> y_rot_vec = {-2.92, -4.45, 0.02, -1.44};
         std::vector <double> z_rot_vec = {0.14, 0.18, -0.01, 0.11};
 
-        std::vector<std::vector<double>> LS_TCP = {{311.8, -305.1, 2.74}, {400.0, -274.5, 2.70}, {313.9,-310.5, 2.77}, {229.7,-344.2, 2.75}}; //Ændre til rigtige mål for vinkel og origo af frame for hver "TCP"
-        std::vector<std::vector<double>> WS_TCP = {{432.3, -466.1, 2.75}, {520.3, -433.0, 2.76}, {431.3,-462.9, 2.75}, {349.0, -505.2, 2.75}}; //Ændre til rigtige mål for vinkel og origo af frame for hver "TCP"
+        std::vector<std::vector<double>> LS_TCP = {{311.8, -305.1, 2.74}, {400.0, -274.5, 2.70}, {313.9,-310.5, 2.77}, {229.7,-344.2, 2.75}};
+        std::vector<std::vector<double>> WS_TCP = {{432.3, -466.1, 2.75}, {520.3, -433.0, 2.76}, {431.3,-462.9, 2.75}, {349.0, -505.2, 2.75}};
         double LS_Gap = 16.25; //mm
         double WS_Gap = 8; //mm
-
-        // Variables to LS T1, T2, T3, T4
-        double LS_T1x = 1; //Ændre til rigtige positioner, det der skal stå i LS_TCP
-        double LS_T1y = 1;
-        double LS_T1z = 1;
-        double LS_T1angle = 1;
-
 
         // Variables to check for-loops in pickNplace
         int check = 1;
@@ -88,7 +83,7 @@ class Robot_control{
         void open_modbus_com(){ //"192.168.1.54"
             _mb.modbus_set_slave_id(1);
             _mb.modbus_connect();    // Connects to robot via Modbus TCP/IP through IP-adress and Port
-            control_sleep();
+            //control_sleep();
         }
 
         void control_sleep (){
@@ -131,7 +126,7 @@ class Robot_control{
                             rest = length1 - length2;
                         }
                         loop2_pickup(i, j);
-                        loop3_drop(i, j);
+                        loop3_drop(i, j);                        
                         check++;
                      }
             std::cout << std::endl;
@@ -139,11 +134,13 @@ class Robot_control{
         }
 
         void loop2_pickup(int i, int j){
-             for(int k = 0; k < 4*rest; k++){ // rest = 1, but if only needs to fetch 2 legos it stops the loop after 2 because then rest = 0.5
+            _mb.modbus_write_register(REG_FLANGE, 0);
+
+            for(int k = 0; k < 4*rest; k++){ // rest = 1, but if only needs to fetch 2 legos it stops the loop after 2 because then rest = 0.5
                 /* PICKING MOTION */
 
-                x_pos_pick = legoPos[i_pick][j_pick];
-                y_pos_pick = legoPos[i_pick][j_pick+1];
+                x_pos_place = legoPos[i_pick][j_pick];
+                y_pos_place = legoPos[i_pick][j_pick+1];
                 j_pick = 0;
                 i_pick++;
                 x_Coord = LS_TCP[k][0];
@@ -158,12 +155,13 @@ class Robot_control{
                 move(LS_Gap, z_Coord_up);
                 move(LS_Gap, z_Coord_down);
                 move(LS_Gap, z_Coord_up);
-
+                _mb.modbus_write_register(REG_FLANGE, 1);
              }
         }
 
         void loop3_drop(int i, int j){
             int k = 0;
+            _mb.modbus_write_register(REG_FLANGE, 0);
 
             for(int l = 0; l < 8*rest; l+=2){ // rest = 1, but if only needs to fetch 2 legos it stops the loop after 2 because then rest = 0.5
                 /* PICKING MOTION */
@@ -188,6 +186,7 @@ class Robot_control{
                 move(WS_Gap, z_Coord_down);
                 //close
                 move(WS_Gap, z_Coord_up);
+                _mb.modbus_write_register(REG_FLANGE, 1);
 
                 k++;
             } 
